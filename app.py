@@ -58,9 +58,50 @@ if section == "SQL Dashboard":
             FROM ola_rides
             GROUP BY Customer_ID
             ORDER BY Total_Rides DESC;
-        """
-    }
+        """,
+                "Q5. Driver Cancellations (Personal/Car Issues)": """
+        SELECT COUNT(*) AS No_Of_Rides_Canceled_By_Driver
+        FROM ola_rides
+        WHERE Booking_Status = 'Canceled by Driver'
+        AND Canceled_Rides_by_Driver = 'Personal & Car related issue';
+        """,
 
+        "Q6. Max & Min Driver Rating (Prime Sedan)": """
+        SELECT Vehicle_Type,
+               MAX(Driver_Ratings) AS Max_Driver_Rating,
+               MIN(Driver_Ratings) AS Min_Driver_Rating
+        FROM ola_rides
+        WHERE Vehicle_Type = 'Prime Sedan'
+        GROUP BY Vehicle_Type;
+        """,
+
+        "Q7. Rides Paid Using UPI": """
+        SELECT *
+        FROM ola_rides
+        WHERE Payment_Method = 'UPI';
+        """,
+
+        "Q8. Avg Customer Rating by Vehicle Type": """
+        SELECT Vehicle_Type,
+               AVG(Customer_Rating) AS Avg_Customer_Rating
+        FROM ola_rides
+        WHERE Customer_Rating IS NOT NULL
+        GROUP BY Vehicle_Type;
+        """,
+
+        "Q9. Total Booking Value (Successful Rides)": """
+        SELECT SUM(Booking_Value) AS Total_Booking_Value
+        FROM ola_rides
+        WHERE Booking_Status = 'Success';
+        """,
+
+        "Q10. Incomplete Rides with Reason": """
+        SELECT Booking_ID, Vehicle_Type,
+               Incomplete_Rides, Incomplete_Rides_Reason
+        FROM ola_rides
+        WHERE Incomplete_Rides = 'Yes';
+        """
+        }
     question = st.selectbox("Select a Question", queries.keys())
 
     st.subheader("SQL Query")
@@ -513,3 +554,4 @@ if section == "Power BI Dashboard (Screenshot)":
         width='stretch'
     )
         
+
